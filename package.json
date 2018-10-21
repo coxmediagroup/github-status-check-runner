@@ -5,7 +5,10 @@
   "main": "dist/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf ./dist && tsc"
+    "build": "rm -rf ./dist && tsc",
+    "lint": "tslint --project .",
+    "lint:airbnb": "tslint --project . -c tslint-airbnb.json",
+    "lint:fix": "tslint --fix --project ."
   },
   "keywords": [
     "checks",
@@ -26,8 +29,11 @@
     "@types/node": "^10.11.7",
     "@types/validate.js": "^0.11.0",
     "@types/yargs": "^12.0.1",
-    "tslint-config-airbnb": "^5.11.0",
+    "prettier": "^1.14.3",
     "tslint": "^5.11.0",
+    "tslint-config-airbnb": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "tslint-plugin-prettier": "^2.0.0",
     "typescript": "^3.1.3"
   },
   "exclude": [
