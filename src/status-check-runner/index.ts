@@ -25,7 +25,8 @@ export const statusCheck = async (context: string, command: string) => {
   let stderr: string;
   let stdout: string;
 
-  return configuredGithubAPI.setGithubStatus(context)
+  return configuredGithubAPI
+    .setGithubStatus(context)
     .then(() => {
       return execPromise(command)
         .catch((execResults) => {
@@ -36,12 +37,20 @@ export const statusCheck = async (context: string, command: string) => {
           stderr = execResults.stderr;
           stdout = execResults.stdout;
           return execResults;
-        })
+        });
     })
-    .then(() => configuredGithubAPI.setGithubStatus(context, status, status !== 'success' ? stderr : stdout))
+    .then(() =>
+      configuredGithubAPI.setGithubStatus(
+        context,
+        status,
+        status !== 'success' ? stderr : stdout,
+      ),
+    )
     .then(() => ({ command, context, status, stderr, stdout }));
 };
 
 export const allStatusChecks = async (contextCommands: string[][]) => {
-  return Promise.all(contextCommands.map(([context, command]) => statusCheck(context, command)));
+  return Promise.all(
+    contextCommands.map(([context, command]) => statusCheck(context, command)),
+  );
 };

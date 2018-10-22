@@ -1,4 +1,4 @@
-import ghsc from '../types';
+import { ghsc } from '../types';
 
 import yargs from 'yargs';
 
@@ -39,10 +39,9 @@ export const yargArgs = yargs
   .example(
     '$0 --owner foo --repository bar --token abc123 -- "test:js" "gulp test:js"',
     'Create a new status check "test:js" at the GitHub repository "foo/bar" based on the ' +
-    'results of the command executed.'
+      'results of the command executed.',
   )
-  .wrap(yargs.terminalWidth())
-  .argv;
+  .wrap(yargs.terminalWidth()).argv;
 
 const args = (): ghsc.PreValidatedArgs => {
   const newArgs = baseArgs();
@@ -65,6 +64,6 @@ const args = (): ghsc.PreValidatedArgs => {
   trimArgs(newArgs);
 
   return newArgs;
-}
+};
 
 export default args;

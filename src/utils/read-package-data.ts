@@ -7,7 +7,7 @@ export const getVersion = (): string => {
   try {
     return JSON.parse(packageData).version;
   } catch (error) {
-    console.warn(error)
+    console.warn(error);
     return '';
   }
-}
+};

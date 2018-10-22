@@ -3,20 +3,20 @@ import runtimeOptions from '../runtime-options';
 const nonEmptyString = /.+/;
 
 const gitConstraints = {
-  'git': {
+  git: {
     presence: true,
   },
   'git.sha': {
     presence: true,
     format: {
       pattern: nonEmptyString,
-      message: 'must contain a git SHA, branch name, or a tag name'
-    }
+      message: 'must contain a git SHA, branch name, or a tag name',
+    },
   },
 };
 
 const githubConstraints = {
-  'github': {
+  github: {
     presence: !runtimeOptions.other.dryrun,
   },
   'github.owner': {
@@ -42,20 +42,21 @@ const githubConstraints = {
   },
 };
 
-const statusChecksConstraints = { // TODO: validate {[key:string]: string}
-  'statusChecks': {
+const statusChecksConstraints = {
+  // TODO: validate {[key:string]: string}
+  statusChecks: {
     presence: true,
   },
 };
 
 const otherConstraints = {
-  'other': {
+  other: {
     presence: true,
   },
   'other.dryrun': {
     presence: true,
-  }
-}
+  },
+};
 
 export const runtimeOptionsConstraints = {
   ...gitConstraints,

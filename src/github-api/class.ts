@@ -23,15 +23,19 @@ export class ConfiguredGithubAPI {
     this.api = new Github({
       headers: {
         accept: 'application/vnd.github.v3+json',
-        'user-agent': `GitHub Status Checks v${ getVersion() }`,
+        'user-agent': `GitHub Status Checks v${getVersion()}`,
       },
     });
     if (token) {
-      this.api.authenticate({ type: 'token', token });
+      this.api.authenticate({ token, type: 'token' });
     }
   }
 
-  public async setGithubStatus(context: string, state: ghsc.StatusCheckStates = 'pending', description: string = '' ): Promise<ghsc.statusCheckUpdateResult> {
+  public async setGithubStatus(
+    context: string,
+    state: ghsc.StatusCheckStates = 'pending',
+    description: string = '',
+  ): Promise<ghsc.StatusCheckUpdateResult> {
     const statusParams = { ...defaultStatusParams, ...{ context, state } };
 
     if (description) {
@@ -39,10 +43,14 @@ export class ConfiguredGithubAPI {
     }
 
     if (runtimeOptions.other.dryrun) {
-      return Promise.resolve({ status: status } as ghsc.statusCheckUpdateResult);
+      return Promise.resolve({ status } as ghsc.StatusCheckUpdateResult);
     }
 
-    return this.api.repos.createStatus(statusParams)
-      .then(response => ({ status: response.data.state } as ghsc.statusCheckUpdateResult));
+    return this.api.repos
+      .createStatus(statusParams)
+      .then(
+        (response) =>
+          ({ status: response.data.state } as ghsc.StatusCheckUpdateResult),
+      );
   }
 }

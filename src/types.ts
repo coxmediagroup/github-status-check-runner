@@ -1,8 +1,6 @@
-import child_process from 'child_process';
-
 export namespace ghsc {
   export interface PreGitArgs {
-    sha?: string,
+    sha?: string;
   }
 
   export interface PreGithubArgs {
@@ -12,7 +10,7 @@ export namespace ghsc {
   }
 
   export interface GitArgs {
-    sha: string,
+    sha: string;
   }
 
   export interface GithubArgs {
@@ -52,7 +50,7 @@ export namespace ghsc {
   export type StatusCheckStates = 'error' | 'failure' | 'pending' | 'success';
   export type StatusCheckStatesSkip = StatusCheckStates | 'skipped';
 
-  export interface normalizedGitHubReposCreateStatusResponse {
+  export interface NormalizedGitHubReposCreateStatusResponse {
     status: string;
     description: string;
     context: StatusCheckStatesSkip;
@@ -60,7 +58,7 @@ export namespace ghsc {
     updated_at: Date;
   }
 
-  export interface statusCheckUpdateResult {
+  export interface StatusCheckUpdateResult {
     command?: string;
     context?: string;
     status: StatusCheckStatesSkip;
@@ -69,7 +67,7 @@ export namespace ghsc {
   }
 
   export interface YargArgs {
-    _: string[],
+    _: string[];
     $0: string;
     branch?: string;
     commit?: string;
