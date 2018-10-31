@@ -42,9 +42,14 @@ const githubConstraints = {
   },
 };
 
-const statusChecksConstraints = {
-  // TODO: validate {[key:string]: string}
-  statusChecks: {
+const runCheckConstraints = {
+  runCheck: {
+    presence: true,
+  },
+  'runCheck.command': {
+    presence: true,
+  },
+  'runCheck.context': {
     presence: true,
   },
 };
@@ -61,6 +66,6 @@ const otherConstraints = {
 export const runtimeOptionsConstraints = {
   ...gitConstraints,
   ...githubConstraints,
-  ...statusChecksConstraints,
+  ...runCheckConstraints,
   ...otherConstraints,
 };

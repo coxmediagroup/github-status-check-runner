@@ -2,12 +2,12 @@ import { ghsc } from '../types';
 
 import yargs from 'yargs';
 
-import { parseContextCommands, trimArgs } from '../utils';
+import { trimArgs } from '../utils';
 import { getDefaultCommitHash } from '../git-cli';
 import { baseArgs } from '.';
 
 export const yargArgs = yargs
-  .usage('$0 [GitHub Params] [Git Params] -- "test:js" "gulp test:js"')
+  .usage('$0 [GitHub Params] [Git Params] -- npm run lint')
   .group(['owner', 'repository', 'token'], 'GitHub Params')
   .group('sha', 'Git Params')
   .option('o', {
@@ -36,10 +36,15 @@ export const yargArgs = yargs
     description: 'Run commands but do not create any GitHub status checks',
     boolean: true,
   })
+  .option('c', {
+    alias: 'context',
+    description: 'Label of the status check to be displayed in GitHub',
+    nargs: 1,
+  })
   .example(
-    '$0 --owner foo --repository bar --token abc123 -- "test:js" "gulp test:js"',
-    'Create a new status check "test:js" at the GitHub repository "foo/bar" based on the ' +
-      'results of the command executed.',
+    '$0 --owner foo --repository bar --token abc123 -- npm run lint',
+    'Create a new status check "test:js" at the GitHub repository "foo/bar" ' +
+      'based on the results of the command executed.',
   )
   .wrap(yargs.terminalWidth()).argv;
 
@@ -54,8 +59,9 @@ const args = (): ghsc.PreValidatedArgs => {
   newArgs.github.repository = yargArgs.repository;
   newArgs.github.token = yargArgs.token;
 
-  // Statuc Checks
-  newArgs.statusChecks = parseContextCommands(yargArgs._);
+  // Status Checks
+  newArgs.runCheck.command = yargArgs._.join(' ');
+  newArgs.runCheck.context = yargArgs.context;
 
   // Other
   newArgs.other.dryrun = yargArgs.dryrun;

@@ -27,33 +27,39 @@ export namespace ghsc {
     dryrun: boolean;
   }
 
+  export interface PreStatusCheckArgs {
+    command?: string;
+    context?: string;
+  }
+
   export interface StatusCheckArgs {
-    [key: string]: string;
+    command: string;
+    context: string;
   }
 
   export interface PreValidatedArgs {
     git?: PreGitArgs;
     github?: PreGithubArgs;
-    statusChecks?: StatusCheckArgs;
+    runCheck?: PreStatusCheckArgs;
     other?: PreOtherArgs;
   }
 
   export interface NormalizedArgs {
     git: GitArgs;
     github: GithubArgs;
-    statusChecks: StatusCheckArgs;
+    runCheck: StatusCheckArgs;
     other: OtherArgs;
   }
 
   export type NormalizedArgsKeys = keyof NormalizedArgs;
 
-  export type StatusCheckStates = 'error' | 'failure' | 'pending' | 'success';
-  export type StatusCheckStatesSkip = StatusCheckStates | 'skipped';
+  export type StatusCheckState = 'error' | 'failure' | 'pending' | 'success';
+  export type StatusCheckStateSkip = StatusCheckState | 'skipped';
 
   export interface NormalizedGitHubReposCreateStatusResponse {
     status: string;
     description: string;
-    context: StatusCheckStatesSkip;
+    context: StatusCheckStateSkip;
     created_at: Date;
     updated_at: Date;
   }
@@ -61,7 +67,7 @@ export namespace ghsc {
   export interface StatusCheckUpdateResult {
     command?: string;
     context?: string;
-    status: StatusCheckStatesSkip;
+    status: StatusCheckStateSkip;
     stderr?: string;
     stdout?: string;
   }
@@ -70,7 +76,9 @@ export namespace ghsc {
     _: string[];
     $0: string;
     branch?: string;
+    c?: string;
     commit?: string;
+    context?: string;
     hash?: string;
     s?: string;
     sha?: string;

@@ -33,7 +33,7 @@ export class ConfiguredGithubAPI {
 
   public async setGithubStatus(
     context: string,
-    state: ghsc.StatusCheckStates = 'pending',
+    state: ghsc.StatusCheckState = 'pending',
     description: string = '',
   ): Promise<ghsc.StatusCheckUpdateResult> {
     const statusParams = { ...defaultStatusParams, ...{ context, state } };
@@ -43,14 +43,13 @@ export class ConfiguredGithubAPI {
     }
 
     if (runtimeOptions.other.dryrun) {
-      return Promise.resolve({ status } as ghsc.StatusCheckUpdateResult);
+      return {
+        context,
+        status: 'skipped',
+      } as ghsc.StatusCheckUpdateResult;
     }
 
-    return this.api.repos
-      .createStatus(statusParams)
-      .then(
-        (response) =>
-          ({ status: response.data.state } as ghsc.StatusCheckUpdateResult),
-      );
+    const { data } = await this.api.repos.createStatus(statusParams);
+    return { status: data.state } as ghsc.StatusCheckUpdateResult;
   }
 }

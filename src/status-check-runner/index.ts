@@ -1,7 +1,7 @@
 import { ghsc } from 'types';
 
 import child_process from 'child_process';
-import { promisify, CustomPromisify } from 'util';
+import { promisify } from 'util';
 
 import { configuredGithubAPI } from '../github-api';
 
@@ -21,36 +21,28 @@ const execPromise = promisify(child_process.exec);
  * @returns: Promise
  */
 export const statusCheck = async (context: string, command: string) => {
-  let status: ghsc.StatusCheckStates = 'success';
-  let stderr: string;
-  let stdout: string;
+  let status: ghsc.StatusCheckState = 'success';
+  let execResults = { stdout: '', stderr: '' };
 
-  return configuredGithubAPI
-    .setGithubStatus(context)
-    .then(() => {
-      return execPromise(command)
-        .catch((execResults) => {
-          status = 'failure';
-          return execResults;
-        })
-        .then((execResults) => {
-          stderr = execResults.stderr;
-          stdout = execResults.stdout;
-          return execResults;
-        });
-    })
-    .then(() =>
-      configuredGithubAPI.setGithubStatus(
-        context,
-        status,
-        status !== 'success' ? stderr : stdout,
-      ),
-    )
-    .then(() => ({ command, context, status, stderr, stdout }));
-};
+  // Check starts off in a pending state
+  await configuredGithubAPI.setGithubStatus(context);
 
-export const allStatusChecks = async (contextCommands: string[][]) => {
-  return Promise.all(
-    contextCommands.map(([context, command]) => statusCheck(context, command)),
-  );
+  // Execute the check command
+  try {
+    execResults = await execPromise(command);
+  } catch (execResults) {
+    status = 'failure';
+  }
+
+  // Update the status check with the results of the check command
+  await configuredGithubAPI.setGithubStatus(context, status);
+
+  // Return a payload for use downstream
+  return {
+    command,
+    context,
+    status,
+    stderr: execResults.stderr,
+    stdout: execResults.stdout,
+  };
 };

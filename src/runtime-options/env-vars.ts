@@ -8,10 +8,6 @@ const githubOwner: string = process.env.GITHUB_OWNER || '';
 const githubRepo: string = process.env.GITHUB_REPO || '';
 const githubToken: string = process.env.GITHUB_TOKEN || '';
 
-// Build-step optimization
-export const resolvedSourceVersion: string =
-  process.env.CODEBUILD_RESOLVED_SOURCE_VERSION || '';
-
 const args = (): ghsc.PreValidatedArgs => {
   const newArgs = baseArgs();
 
