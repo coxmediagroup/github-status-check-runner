@@ -4,11 +4,11 @@
   "description": "CLI utility for updating GitHub status checks.",
   "main": "dist/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf ./dist && tsc",
-    "lint": "tslint --project .",
     "lint:airbnb": "tslint --project . -c tslint-airbnb.json",
-    "lint:fix": "tslint --fix --project ."
+    "lint:fix": "tslint --fix --project .",
+    "lint": "tslint --project .",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "checks",

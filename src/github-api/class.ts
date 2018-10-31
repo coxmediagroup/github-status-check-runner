@@ -1,13 +1,13 @@
 import { ghsc } from 'types';
 
-import Github from '@octokit/rest';
+import rest from '@octokit/rest';
 
 import runtimeOptions from '../runtime-options';
 import { getVersion } from '../utils';
 
 const token = runtimeOptions.github.token;
 
-const defaultStatusParams: Github.ReposCreateStatusParams = {
+const defaultStatusParams: rest.ReposCreateStatusParams = {
   context: '',
   description: '',
   owner: runtimeOptions.github.owner,
@@ -17,10 +17,10 @@ const defaultStatusParams: Github.ReposCreateStatusParams = {
 };
 
 export class ConfiguredGithubAPI {
-  private api: Github;
+  private api: rest;
 
   constructor() {
-    this.api = new Github({
+    this.api = new rest({
       headers: {
         accept: 'application/vnd.github.v3+json',
         'user-agent': `GitHub Status Checks v${getVersion()}`,
