@@ -1,0 +1,1 @@
+{"version":3,"file":"class.d.ts","sourceRoot":"","sources":["../../src/github-api/class.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,IAAI,EAAE,MAAM,OAAO,CAAC;AAkB7B,qBAAa,mBAAmB;IAC9B,OAAO,CAAC,GAAG,CAAO;;IAcL,eAAe,CAC1B,OAAO,EAAE,MAAM,EACf,KAAK,GAAE,IAAI,CAAC,gBAA4B,EACxC,WAAW,GAAE,MAAW,GACvB,OAAO,CAAC,IAAI,CAAC,uBAAuB,CAAC;CAiBzC"}
