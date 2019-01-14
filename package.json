@@ -4,11 +4,10 @@
   "description": "CLI utility for updating GitHub status checks.",
   "main": "dist/main.js",
   "scripts": {
-    "build": "rm -rf ./dist && tsc",
-    "lint:airbnb": "tslint --project . -c tslint-airbnb.json",
-    "lint:fix": "tslint --fix --project .",
-    "lint": "tslint --project .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "clean": "rm -rf ./dist",
+    "lint": "tslint --project tsconfig.json -c tslint.json 'src/**/*.ts'",
+    "test": "echo 'Error: no test specified' && exit 1"
   },
   "keywords": [
     "checks",
@@ -18,7 +17,7 @@
     "status"
   ],
   "author": "Cox Media Group",
-  "license": "UNLICENSED",
+  "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
     "@octokit/rest": "^15.13.1",
     "validate.js": "^0.12.0",
