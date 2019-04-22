@@ -5,7 +5,9 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "tsc",
+    "checks:lint": "npm run status-check -- --context 'lint' -- npm run lint --silent",
     "clean": "rm -rf ./dist",
+    "status-check": "node bin/ghsc --owner coxmediagroup --repository github-status-check-runner --token $GITHUB_TOKEN",
     "lint": "tslint --project tsconfig.json -c tslint.json 'src/**/*.ts'",
     "test": "echo 'Error: no test specified' && exit 1"
   },
@@ -47,6 +49,10 @@
   ],
   "bin": {
     "ghsc": "bin/ghsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coxmediagroup/github-status-check-runner.git"
   },
   "bugs": {
     "url": "https://github.com/coxmediagroup/github-status-check-runner/issues"
