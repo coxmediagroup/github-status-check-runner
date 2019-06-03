@@ -1,14 +1,15 @@
 {
   "name": "@coxmediagroup/github-status-check-runner",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "CLI utility for updating GitHub status checks.",
   "main": "dist/main.js",
   "scripts": {
-    "build": "tsc",
+    "build:clean": "rimraf dist",
+    "build:js": "tsc",
+    "build": "npm run build:clean && npm run build:js",
     "checks:lint": "npm run status-check -- --context 'lint' -- npm run lint --silent",
-    "clean": "rm -rf ./dist",
-    "status-check": "node bin/ghsc --owner coxmediagroup --repository github-status-check-runner --token $GITHUB_TOKEN",
     "lint": "tslint --project tsconfig.json -c tslint.json 'src/**/*.ts'",
+    "status-check": "node bin/ghsc --owner coxmediagroup --repository github-status-check-runner --token $GITHUB_TOKEN",
     "test": "echo 'Error: no test specified' && exit 1"
   },
   "keywords": [
@@ -18,8 +19,8 @@
     "GitHub",
     "status"
   ],
-  "author": "Cox Media Group",
-  "license": "SEE LICENSE IN LICENSE",
+  "author": "github.com/sframe",
+  "license": "MIT",
   "dependencies": {
     "@octokit/rest": "^15.13.1",
     "validate.js": "^0.12.0",
@@ -37,7 +38,8 @@
     "tslint-config-airbnb": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "tslint-plugin-prettier": "^2.0.0",
-    "typescript": "^3.1.3"
+    "typescript": "^3.1.3",
+    "rimraf": "^2.6.3"
   },
   "exclude": [
     "docs",

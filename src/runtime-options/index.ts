@@ -1,15 +1,15 @@
-import { ghsc } from 'types';
+import { PreValidatedArgs, NormalizedArgs, NormalizedArgsKeys } from 'types';
 
 import cliArgs from './cli-args';
 import envVars from './env-vars';
 
-export const topArgKeys: ghsc.NormalizedArgsKeys[] = ['git', 'github', 'runCheck', 'other'];
+export const topArgKeys: NormalizedArgsKeys[] = ['git', 'github', 'runCheck', 'other'];
 
 export const githubKeys = ['owner', 'repository', 'token'];
 
 export const gitKeys = ['sha'];
 
-export const baseArgs = (): ghsc.NormalizedArgs => {
+export const baseArgs = (): NormalizedArgs => {
   const args = {
     git: {
       sha: '',
@@ -30,20 +30,20 @@ export const baseArgs = (): ghsc.NormalizedArgs => {
   return args;
 };
 
-const argsReducer = (acc: ghsc.PreValidatedArgs, cur: ghsc.PreValidatedArgs) => {
+const argsReducer = (acc: PreValidatedArgs, cur: PreValidatedArgs) => {
   topArgKeys.map((key) => {
-    acc[key] = { ...acc[key], ...(cur as ghsc.NormalizedArgs)[key] };
+    acc[key] = { ...acc[key], ...(cur as NormalizedArgs)[key] };
   });
   return acc;
 };
 
-const coalesceArgs = (...argsArray: ghsc.PreValidatedArgs[]): ghsc.PreValidatedArgs => {
-  return argsArray.reduce(argsReducer, {} as ghsc.PreValidatedArgs);
+const coalesceArgs = (...argsArray: PreValidatedArgs[]): PreValidatedArgs => {
+  return argsArray.reduce(argsReducer, {} as PreValidatedArgs);
 };
 
 // TODO: Merge config vars
 const argsCoalesced = coalesceArgs(baseArgs(), envVars(), cliArgs());
 
-const runtimeOptions = argsCoalesced as ghsc.NormalizedArgs;
+const runtimeOptions = argsCoalesced as NormalizedArgs;
 
 export default runtimeOptions;

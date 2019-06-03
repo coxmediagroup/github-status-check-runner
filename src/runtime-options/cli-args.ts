@@ -1,4 +1,4 @@
-import { ghsc } from '../types';
+import { PreValidatedArgs } from '../types';
 
 import yargs from 'yargs';
 
@@ -48,7 +48,7 @@ export const yargArgs = yargs
   )
   .wrap(yargs.terminalWidth()).argv;
 
-const args = (): ghsc.PreValidatedArgs => {
+const args = (): PreValidatedArgs => {
   const newArgs = baseArgs();
 
   // Git

@@ -1,4 +1,4 @@
-import { ghsc } from 'types';
+import { StatusCheckState, StatusCheckUpdateResult } from 'types';
 
 import rest from '@octokit/rest';
 
@@ -33,9 +33,9 @@ export class ConfiguredGithubAPI {
 
   public async setGithubStatus(
     context: string,
-    state: ghsc.StatusCheckState = 'pending',
+    state: StatusCheckState = 'pending',
     description: string = '',
-  ): Promise<ghsc.StatusCheckUpdateResult> {
+  ): Promise<StatusCheckUpdateResult> {
     const statusParams = { ...defaultStatusParams, ...{ context, state } };
 
     if (description) {
@@ -46,10 +46,10 @@ export class ConfiguredGithubAPI {
       return {
         context,
         status: 'skipped',
-      } as ghsc.StatusCheckUpdateResult;
+      } as StatusCheckUpdateResult;
     }
 
     const { data } = await this.api.repos.createStatus(statusParams);
-    return { status: data.state } as ghsc.StatusCheckUpdateResult;
+    return { status: data.state } as StatusCheckUpdateResult;
   }
 }

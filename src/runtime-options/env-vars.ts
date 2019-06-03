@@ -1,4 +1,4 @@
-import { ghsc } from '../types';
+import { PreValidatedArgs } from '../types';
 
 import { baseArgs } from '.';
 import { trimArgs } from '../utils';
@@ -8,7 +8,7 @@ const githubOwner: string = process.env.GITHUB_OWNER || '';
 const githubRepo: string = process.env.GITHUB_REPO || '';
 const githubToken: string = process.env.GITHUB_TOKEN || '';
 
-const args = (): ghsc.PreValidatedArgs => {
+const args = (): PreValidatedArgs => {
   const newArgs = baseArgs();
 
   // GitHub
